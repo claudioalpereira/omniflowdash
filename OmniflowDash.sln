@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniflowDash", "OmniflowDash\OmniflowDash.csproj", "{8EC6E91D-A011-4384-B1BF-A66ECB1F248F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniflowDash.Tests", "OmniflowDash.Tests\OmniflowDash.Tests.csproj", "{E923A04E-B626-4A90-8FEF-28B23898A89F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniflowChart.Data", "OmniflowChart.Data\OmniflowChart.Data.csproj", "{51F926CD-737E-4F7A-B41B-1151709B1915}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EC6E91D-A011-4384-B1BF-A66ECB1F248F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC6E91D-A011-4384-B1BF-A66ECB1F248F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC6E91D-A011-4384-B1BF-A66ECB1F248F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC6E91D-A011-4384-B1BF-A66ECB1F248F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E923A04E-B626-4A90-8FEF-28B23898A89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E923A04E-B626-4A90-8FEF-28B23898A89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E923A04E-B626-4A90-8FEF-28B23898A89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E923A04E-B626-4A90-8FEF-28B23898A89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F926CD-737E-4F7A-B41B-1151709B1915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F926CD-737E-4F7A-B41B-1151709B1915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F926CD-737E-4F7A-B41B-1151709B1915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F926CD-737E-4F7A-B41B-1151709B1915}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

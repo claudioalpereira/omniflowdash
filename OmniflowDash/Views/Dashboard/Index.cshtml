@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div id="result">loading...</div>
+
+<script>
+
+    window.addEventListener(
+        'load',
+        function () { 
+            setInterval(
+                function () {
+                    $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata", 
+                        function (data) { 
+                            $('#result').text(data); 
+                        }
+                    ); 
+                },
+                60*1000);
+        },
+        false);
+
+</script>
