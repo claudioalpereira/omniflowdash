@@ -29,8 +29,8 @@ namespace OmniflowDash
                       "~/Content/site.css"));
 */
 
-            bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
-                      "~/Content/bootstrap.slate.min.css",
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/bootstrap.slate.css",
                       "~/Content/site.css"));
         }
     }
