@@ -23,15 +23,23 @@ namespace OmniflowDash
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-/*
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-*/
+            /*
+                        bundles.Add(new StyleBundle("~/Content/css").Include(
+                                  "~/Content/bootstrap.css",
+                                  "~/Content/site.css"));
+            */
 
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
                       "~/Content/bootstrap.theme.slate.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Chartist/css").Include(
+                          "~/Content/chartist.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Chartist/js").Include(
+                          "~/Scripts/chartist.min.js"));
         }
+
     }
 }
+

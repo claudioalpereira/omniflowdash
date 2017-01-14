@@ -5,6 +5,15 @@
 
 <h2>Dash</h2>
 
+<div class="ct-chart ct-golden-section" id="measuresVChart"></div>
+<hr />
+<div class="ct-chart ct-golden-section" id="measuresIChart"></div>
+<hr />
+<div class="ct-chart ct-golden-section" id="measuresTChart"></div>
+<hr />
+
+<div id="state">loading...</div>
+<hr />
 <div id="instdata">loading...</div>
 <hr />
 <div id="confdata">loading...</div>
@@ -16,52 +25,112 @@
 
 <script>
 
-    window.addEventListener(
-        'load',
-        function () {
-            setInterval(
-                function () {
-                    $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
-                        function (data) {
-                            $('#confdata').text(data);
-                        }
-                    );
-                },
-                60 * 1000);
-        },
-        false);
+
+    var state, instdata, confdata, measures;
+    var UPDATE_STATE_FREQ = 5 * 60 * 1000,
+        UPDATE_INSTDATA_FREQ = 60 * 1000,
+        UPDATE_CONFDATA_FREQ = 5 * 60 * 1000;
+
+    function getstate() {
+        console.log('fetching for state');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getstate",
+            function (data) {
+                state = $.parseJSON(data);
+                updatetateelem();
+                setTimeout(getstate, UPDATE_STATE_FREQ);
+            }
+        );
+    }
+
+    function getinstdata() {
+        console.log('fetching for instdata');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getinstdata",
+                function (data) {
+                    instdata = $.parseJSON(data);
+                    updateinstdataelem();
+                    setTimeout(getinstdata, UPDATE_INSTDATA_FREQ)
+                }
+            );
+    }
+
+    function getconfdata() {
+        console.log('fetching for conf');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
+                function (data) {
+                    confdata = $.parseJSON(data);
+                    updateconfelem();
+                    setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
+                }
+            );
+    }
+
+    function getmeasures() {
+        console.log('fetching for measures');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getmeasures?from="+formatDate(new Date())+"&to="+formatDate(new Date().addDays(1)),
+                function (data) {
+                    measures = $.parseJSON(data);
+                    updatemeasureselem();
+                }
+            );
+    }
+
+    function updatetateelem() {
+        $('#state').text(state.State);
+    }
+
+    function updateinstdataelem() {
+        $('#instdata').text(instdata);
+
+    }
+
+    function updateconfelem() {
+        $('#confdata').text(confdata);
+
+    }
+
+    function updatemeasureselem() {
+        $('#measures').text(measures);
+
+        var dataV = {
+            labels: measures.Labels,
+            series: [measures.Vmin, measures.Vmed, measures.Vmax]
+        };
+        new Chartist.Line('#measuresVChart', dataV);
+
+        var dataI = {
+            labels: measures.Labels,
+            series: [measures.Imed, measures.Imax]
+        };
+        new Chartist.Line('#measuresIChart', dataI);
+
+        var dataT = {
+            labels: measures.Labels,
+            series: [measures.Temp]
+        };
+        new Chartist.Line('#measuresTChart', dataT);
+
+    }
+
+    function formatDate(d) {
+        return d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate();
+    }
+
+    // http://stackoverflow.com/questions/563406/add-days-to-javascript-date
+    Date.prototype.addDays = function (days) {
+        var dat = new Date(this.valueOf());
+        dat.setDate(dat.getDate() + days);
+        return dat;
+    }
 
 
     window.addEventListener(
         'load',
         function () {
-            setInterval(
-                function () {
-                    $.getJSON("http://omniflowhttp.apphb.com/api/v1/getinstdata",
-                        function (data) {
-                            $('#instdata').text(data);
-                        }
-                    );
-                },
-                60 * 1000);
+            getstate();
+            getinstdata();
+            getconfdata();
+            getmeasures();
         },
         false);
-
-
-    window.addEventListener(
-        'load',
-        function () {
-            setInterval(
-                function () {
-                    $.getJSON("http://omniflowhttp.apphb.com/api/v1/getmeasures",
-                        function (data) {
-                            $('#measures').text(data);
-                        }
-                    );
-                },
-                60 * 1000);
-        },
-        false);
-
 
     </script>
