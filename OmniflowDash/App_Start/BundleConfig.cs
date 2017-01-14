@@ -30,7 +30,7 @@ namespace OmniflowDash
 */
 
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
-                      "~/Content/bootstrap.slate.css",
+                      "~/Content/bootstrapslate.css",
                       "~/Content/site.css"));
         }
     }
