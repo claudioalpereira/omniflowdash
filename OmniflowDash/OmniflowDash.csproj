@@ -274,6 +274,16 @@
     <Content Include="SiteTemplates\meghna\js\owl.carousel.min.js" />
     <Content Include="SiteTemplates\meghna\js\tweetie.min.js" />
     <Content Include="SiteTemplates\meghna\js\wow.min.js" />
+    <Content Include="SiteTemplates\projection\css\font-awesome.min.css" />
+    <Content Include="SiteTemplates\projection\css\main.css" />
+    <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.svg" />
+    <Content Include="SiteTemplates\projection\img\banner.jpg" />
+    <Content Include="SiteTemplates\projection\img\pic01.jpg" />
+    <Content Include="SiteTemplates\projection\img\pic02.jpg" />
+    <Content Include="SiteTemplates\projection\js\jquery.min.js" />
+    <Content Include="SiteTemplates\projection\js\main.js" />
+    <Content Include="SiteTemplates\projection\js\skel.min.js" />
+    <Content Include="SiteTemplates\projection\js\util.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -321,6 +331,11 @@
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Dashboard\Dashboard3.cshtml" />
+    <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.eot" />
+    <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.ttf" />
+    <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.woff" />
+    <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.woff2" />
+    <Content Include="SiteTemplates\projection\fonts\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -38,53 +38,6 @@
                 <!--				<h1>Welcome to Projection</h1> -->
 
                 <canvas id="myChart" width="400" height="250"></canvas>
-                <script>
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 12, 19, 3, 20, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-                </script>
 
 
             </header>
@@ -134,5 +87,221 @@ var myChart = new Chart(ctx, {
     <script src="~/SiteTemplates/projection/js/util.js"></script>
     <script src="~/SiteTemplates/projection/js/main.js"></script>
 
+
+
+
+
+    <script>
+
+
+    var state, instdata, confdata, measures;
+    var UPDATE_STATE_FREQ = 5 * 60 * 1000,
+        UPDATE_INSTDATA_FREQ = 60 * 1000,
+        UPDATE_CONFDATA_FREQ = 5 * 60 * 1000;
+
+    function getstate() {
+        console.log('fetching for state');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getstate",
+            function (data) {
+                state = $.parseJSON(data);
+                updatetateelem();
+                setTimeout(getstate, UPDATE_STATE_FREQ);
+            }
+        );
+    }
+
+    function getinstdata() {
+        console.log('fetching for instdata');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getinstdata",
+                function (data) {
+                    instdata = $.parseJSON(data);
+                    updateinstdataelem();
+                    setTimeout(getinstdata, UPDATE_INSTDATA_FREQ)
+                }
+            );
+    }
+
+    function getconfdata() {
+        console.log('fetching for conf');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
+                function (data) {
+                    confdata = $.parseJSON(data);
+                    updateconfelem();
+                    setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
+                }
+            );
+    }
+
+    function getmeasures() {
+        console.log('fetching for measures');
+        $.getJSON("http://omniflowhttp.apphb.com/api/v1/getmeasures?from="+formatDate(new Date())+"&to="+formatDate(new Date().addDays(1)),
+                function (data) {
+                    measures = $.parseJSON(data);
+                    updatemeasureselem();
+                }
+            );
+    }
+
+    function updatetateelem() {
+        $('#state').text(state.State);
+    }
+
+    function updateinstdataelem() {
+        $('#instdata').text(''+instdata);
+
+    }
+
+    function updateconfelem() {
+        $('#confdata').text(''+confdata);
+
+    }
+
+    function updatemeasureselem_OLD() {
+
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 12, 19, 3, 20, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255,99,132,1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    }
+    function updatemeasureselem() {
+
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            },
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+                datasets: [
+                    {
+                    label: '# of Votes',
+                    data: [12, 19, 3, 20, 3],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'xixas',
+                    data: [19, 19, 3, 5, 2],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    }
+
+    function formatDate(d) {
+        return d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate();
+    }
+
+    // http://stackoverflow.com/questions/563406/add-days-to-javascript-date
+    Date.prototype.addDays = function (days) {
+        var dat = new Date(this.valueOf());
+        dat.setDate(dat.getDate() + days);
+        return dat;
+    }
+
+
+    window.addEventListener(
+        'load',
+        function () {
+            getstate();
+            getinstdata();
+            getconfdata();
+            getmeasures();
+        },
+        false);
+
+    </script>
+
+
 </body>
+
+
+
 </html>
