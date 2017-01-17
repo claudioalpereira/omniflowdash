@@ -11,7 +11,7 @@ namespace OmniflowDash.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
-            return View();
+            return View("Dashboard3");
         }
     }
 }
