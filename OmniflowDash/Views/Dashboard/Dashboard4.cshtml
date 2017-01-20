@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard4";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="row">
+        <canvas id="myChart" width="400" height="250"></canvas>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <canvas id="VBat"></canvas>
+        </div>
+        <div class="col-xs-6">
+            <canvas id="canvas2"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <canvas id="canvas3"></canvas>
+        </div>
+        <div class="col-xs-6">
+            <canvas id="canvas4"></canvas>
+        </div>
+    </div>
+
+
+    @* Scripts *@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+
+    <script>
+
+
+        var state, instdata, confdata, measures;
+        var UPDATE_STATE_FREQ = 5 * 60 * 1000,
+            UPDATE_INSTDATA_FREQ = 60 * 1000,
+            UPDATE_CONFDATA_FREQ = 5 * 60 * 1000;
+
+        function getstate() {
+            console.log('fetching for state');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getstate",
+                function (data) {
+                    state = $.parseJSON(data);
+                    updatetateelem();
+                    setTimeout(getstate, UPDATE_STATE_FREQ);
+                }
+            );
+        }
+
+        function getinstdata() {
+            console.log('fetching for instdata');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getinstdata",
+                    function (data) {
+                        instdata = $.parseJSON(data);
+                        updateinstdataelem();
+                        setTimeout(getinstdata, UPDATE_INSTDATA_FREQ)
+                    }
+                );
+        }
+
+        function getconfdata() {
+            console.log('fetching for conf');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
+                    function (data) {
+                        confdata = $.parseJSON(data);
+                        updateconfelem();
+                        setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
+                    }
+                );
+        }
+
+        function getmeasures() {
+            console.log('fetching for measures');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getmeasures?from=" + formatDate(new Date().addDays(-0.5)) + "&to=" + formatDate(new Date()),
+                    function (data) {
+                        measures = $.parseJSON(data);
+                        updatemeasureselem();
+                    }
+                );
+        }
+
+        function updatetateelem() {
+            $('#state').text(state.State);
+        }
+
+        function updateinstdataelem() {
+            $('#instdata').text('' + instdata);
+
+        }
+
+        function updateconfelem() {
+            $('#confdata').text('' + confdata);
+
+        }
+
+        function updateVBat(v, canvas) {
+                        
+            var pieData = [
+            {
+                value: v,
+                color:"#3F9F3F"
+            },
+            {
+                value : 100-v
+            }
+            ];
+
+            var data = {
+                labels: [
+                    "Red",
+                    "Blue"
+                ],
+                datasets: [
+                    {
+                        data: [v, 100-v],
+                        backgroundColor: [
+                            "#3F9F3F",
+                            "#222"
+                        ]
+                    }]
+            };
+
+            var ctx = document.getElementById(canvas);
+            
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    elements: {
+                        arc: {
+                            borderWidth: 0
+                        }
+                    },
+                    cutoutPercentage: 70,
+                    border:0,
+                    title: {
+                        display: true,
+                        text: v
+                    },
+                    legend: {
+                        display: false
+                    }
+                }                
+            });
+
+        }
+
+        function updatemeasureselem_OLD() {
+
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Yellow", "Green", "Purple", "Orange"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 12, 19, 3, 20, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255,99,132,1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function updatemeasureselem() {
+
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                },
+                data: {
+                    labels: measures.Labels.map(function (d) { return ""; }),
+                    datasets: [
+                        {
+                            label: 'Vmin',
+                            data: measures.Vmin.map(function (v) { return v / 1000; }),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: false
+                        },
+                        {
+                            label: 'Vmed',
+                            data: measures.Vmed.map(function (v) { return v / 1000; }),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: false
+                        },
+                        {
+                            label: 'Vmax',
+                            data: measures.Vmax.map(function (v) { return v / 1000; }),
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            fill: false
+                    }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function formatDate(d) {
+            return d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate();
+        }
+
+        // http://stackoverflow.com/questions/563406/add-days-to-javascript-date
+        Date.prototype.addDays = function (days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+
+        window.addEventListener(
+            'load',
+            function () {
+                updateVBat(67.22, 'VBat');
+                updateVBat(15.88, 'canvas2');
+                updateVBat(68.39, 'canvas3');
+                updateVBat(81.54, 'canvas4');
+                getstate();
+                getinstdata();
+                getconfdata();
+                getmeasures();
+            },
+            false);
+
+    </script>

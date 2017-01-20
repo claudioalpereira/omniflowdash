@@ -336,6 +336,7 @@
     <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.woff" />
     <Content Include="SiteTemplates\projection\fonts\fontawesome-webfont.woff2" />
     <Content Include="SiteTemplates\projection\fonts\FontAwesome.otf" />
+    <Content Include="Views\Dashboard\Dashboard4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
