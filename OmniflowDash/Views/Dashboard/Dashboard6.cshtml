@@ -1,0 +1,293 @@
+﻿
+@{
+    Layout = null;
+}
+@*
+    http://stackoverflow.com/questions/23797331/using-swipe-gestures-to-change-pages-in-multi-page-jquery-mobile-application
+*@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard6</title>   
+    <meta name="viewport" content="width=device-width,height=device-height,minimum-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+
+</head>
+<body>
+
+
+
+    <!-- Splash Screen  -->
+    <div data-role="page" id="article1">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <h1>OMNIconnect</h1>
+        </div>
+        <div data-role="content">
+            <p>splash screen</p>
+
+        </div>
+    </div>
+
+    <!-- InstData -->
+    <div data-role="page" id="article2">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>InstData</h1>
+        </div>
+        <div data-role="content">
+
+        </div>
+    </div>
+
+    <!-- ConfData  -->
+    <div data-role="page" id="article3">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>ConfData</h1>
+        </div>
+        <div data-role="content">
+            <canvas id="buyers" width="600" height="400"></canvas>
+            <canvas id="cf-chartV" width="600" height="400"></canvas>
+            <canvas id="cf-chartP" width="600" height="400"></canvas>
+
+        </div>
+    </div>
+
+    <!-- ConfData Edit -->
+    <div data-role="page" id="article4">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>ConfData Edit</h1>
+        </div>
+        <div data-role="content">
+        </div>
+    </div>
+
+    <!-- Measures -->
+    <div data-role="page" id="article5">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>Measures</h1>
+        </div>
+        <div data-role="content">
+        </div>
+    </div>
+
+    <!-- Location -->
+    <div data-role="page" id="article6">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>Location</h1>
+        </div>
+        <div data-role="content">
+        </div>
+    </div>
+
+    <!-- Stream -->
+    <div data-role="page" id="article7">
+        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
+            <a href="#article1" data-icon="home" data-iconpos="notext">Home</a>
+            <h1>Camera Stream</h1>
+        </div>
+        <div data-role="content">
+        </div>
+    </div>
+
+
+    <script>
+$('#article1').on('swipedown',function(){alert("swipedown..");} );
+$('#article1').on('swipeup',function(){alert("swipeup..");} );
+$(document).on('swipeleft', '.ui-page', function(event){
+    if(event.handled !== true) // This will prevent event triggering more then once
+    {
+        var nextpage = $.mobile.activePage.next('[data-role="page"]');
+        // swipe using id of next page if exists
+        if (nextpage.length > 0) {
+            $.mobile.changePage(nextpage, {transition: "slide", reverse: false}, true, true);
+        }
+        event.handled = true;
+    }
+    return false;
+});
+
+$(document).on('swiperight', '.ui-page', function(event){
+    if(event.handled !== true) // This will prevent event triggering more then once
+    {
+        var prevpage = $(this).prev('[data-role="page"]');
+        if (prevpage.length > 0) {
+            $.mobile.changePage(prevpage, {transition: "slide", reverse: true}, true, true);
+        }
+        event.handled = true;
+    }
+    return false;
+});
+    </script>
+
+    @* Chart.js script*@
+    <script>
+
+    
+    </script>
+
+    <script>
+
+        var confdata = {
+            T1: "15",
+            T2: "30",
+            T3: "500",
+
+            V1: "13750",
+            DeltaV1: "500",
+            V2: "12500",
+            DeltaV2: "500",
+            V3: "12000",
+            DeltaV3: "500",
+
+            P1: "20",
+            P2: "15",
+            POn: "65",
+            PPir: "65",
+
+            ReleAuxMode: "3",
+            ReleAuxPirTime: "15",
+            ReleAuxTimerDay: "120",
+            ReleAuxTimerNight: "120",
+            ReleAuxVBatOff: "12500",
+            ReleAuxVBatOn: "12700",
+            RelePowerVBatOff: "13000",
+            RelePowerVBatOn: "0",
+
+            UpdateConfDate: "",
+            UpdateConfTime: ""
+        };
+        function getconfdata() {
+            console.log('fetching for conf');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
+                    function (data) {
+                        confdata = $.parseJSON(data);
+                        updateconfelem();
+                        setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
+                    }
+                );
+        }
+
+        @* http://stackoverflow.com/questions/17445231/js-how-to-find-the-greatest-common-divisor *@
+        @* maximo divisor comum entre dois valores *@
+        var gcd2 = function (a, b) {
+            return (!b) ? a : gcd(b, a % b);
+        };
+
+        @* http://www.w3resource.com/javascript-exercises/javascript-math-exercise-9.php *@
+        @* maximo divisor comum entre varios valores *@
+        function gcd() {
+
+            var a, b;
+
+            a = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                b = arguments[i];
+                a = gcd2(a, b);
+            }
+            return a;
+        }
+
+
+        function updateconfelem() {
+
+            var x1 = confdata.T3;
+            var x2 = confdata.T3 + confdata.T1;
+            var x3 = confdata.T3 + confdata.T1 + confdata.T2;
+
+            var d = new Array(x3 + 1).fill(undefined);
+            d[0] = 0;
+            d[x1] = 1;
+            d[x2] = 1;
+            d[x3] = 0;
+
+            var l = new Array(x3 + 1).fill('');
+            l[x1] = 'T3';
+            l[x2] = 'T1';
+            l[x3] = 'T2';
+
+
+
+            var dd = new Array(9).fill(undefined);
+            dd.splice(0, 1, 2);
+            dd.splice(3, 1, 7);
+            dd.splice(5, 1, 7);
+
+
+            new Chart(document.getElementById('buyers'), {
+                type: "line",
+                data: {
+                    labels: ["", "T3", "T1", "T2"],
+                    datasets: [
+                        {
+                            data: [0, undefined, 1, 0],
+                            lineTension: 0,
+                            spanGaps: true
+                        }
+                    ]
+                }
+            });
+        }
+
+        function updateChartConfV() {
+
+        }
+
+        function updateChartConfP() {
+            new Chart(document.getElementById('cf-chartP'), {
+                type: "bar",
+                data: {
+                    labels: ["", "P2", "P1", "PPir", "POn"],
+                    datasets: [
+                        {
+                            data: [0, confdata.P2, confdata.P1, confdata.PPir, confdata.POn]
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            categoryPercentage: 1.0,
+                            barPercentage: 1.0
+                        }]
+                    }
+                }
+
+            });
+        }
+        updateChartConfP();
+        var buyers = document.getElementById('buyers').getContext('2d');
+
+        var buyerData = {
+            labels: ["January", "February", "March", "April", "May", "June"],
+            datasets: [
+                {
+                    fillColor: "rgba(172,194,132,0.4)",
+                    strokeColor: "#ACC26D",
+                    pointColor: "#fff",
+                    pointStrokeColor: "#9DB86D",
+                    data: [203, 156, 99, 251, 305, 247]
+                }
+            ]
+        };
+
+        //new Chart(buyers).Line(buyerData);
+        new Chart(document.getElementById('buyers'), {
+            type: "line",
+            data: buyerData,
+        });
+
+
+    </script>
+
+</body>
+</html>

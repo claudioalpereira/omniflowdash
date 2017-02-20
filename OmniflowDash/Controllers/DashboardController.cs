@@ -9,9 +9,13 @@ namespace OmniflowDash.Controllers
     public class DashboardController : Controller
     {
         // GET: Dashboard
-        public ActionResult Index()
+        public ActionResult Index(string view = "Dashboard4")
         {
-            return View("Dashboard4");
+            return View(view);
+        }
+        public ActionResult xpto(string view)
+        {
+            return View(view);
         }
     }
 }
