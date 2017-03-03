@@ -35,9 +35,9 @@
      *@
     <style type="text/css">
         #article1 {
-            background: url('../../Content/img/ofsplash.jpg');
-            }
-
+            background: url('../../SiteTemplates/projection/img/banner.jpg');
+        }
+      
      
     </style>
 </head>
@@ -51,7 +51,7 @@
             <h1>OMNIconnect</h1>
         </div>
         <div data-role="content">
-            <p>splash screen</p>
+           
 
         </div>
     </div>
@@ -155,9 +155,8 @@
         Swipe script
     ----------------------------------------------------------------*@
     <script>
-        $('#article1').on('swipedown',function(){alert("swipedown..");} );
-        $('#article1').on('swipeup',function(){alert("swipeup..");} );
-        $(document).on('swipeleft', '.ui-page', function(event){
+
+        $(document).on('swipeleft', '.ui-page', function (event) {
             if(event.handled !== true) // This will prevent event triggering more then once
             {
                 var nextpage = $.mobile.activePage.next('[data-role="page"]');
@@ -331,7 +330,7 @@
                     labels: ["", "T3", "T1", "T2"],
                     datasets: [
                         {
-                            label: "temporização LEDs",
+                            label: "Timing LEDs",
                             data: [0, confdata.T3, confdata.T1, confdata.T2],
                             //data: dd,
                             lineTension: 0,
@@ -346,11 +345,11 @@
               new Chart(document.getElementById('cf-chartV'), {
                   type: "bar",
                   data: {
-                      labels: ["OFF", "Stand By", "", "PPir no mov.", "", "always ON"],
+                      labels: ["OFF (<" + confdata.V3 / 1000 + "V)", "Stand By (<" + confdata.V2 / 1000 + "V)", "PPir (<" + confdata.V1 / 1000 + "V)", "always ON (>" + confdata.V1 / 1000 + "V)"],
                       datasets: [
                           {
                               label: "State Thresholds",
-                              data: [confdata.V3 / 1000.0, (confdata.V3 + confdata.DeltaV3) / 1000.0, confdata.V2 / 1000.0, (confdata.V2 + confdata.DeltaV2) / 1000.0, confdata.V1 / 1000.0, (confdata.V1 + confdata.DeltaV1) / 1000.0]
+                              data: [0, confdata.V3 / 1000.0, confdata.V2 / 1000.0, confdata.V1 / 1000.0]
                           }
                       ]
                   },
@@ -370,7 +369,7 @@
             new Chart(document.getElementById('cf-chartP'), {
                 type: "bar",
                 data: {
-                    labels: ["OFF", "Stand By", "PPir no mov.", "PPir mov.", "always ON"],
+                    labels: ["OFF (0%)", "Stand By(" + confdata.P2 + "%)", "PPir no mov.(" + confdata.P1 + "%)", "PPir mov.(" + confdata.PPir + "%)", "always ON(" + confdata.POn + "%)"],
                     datasets: [
                         {
                             label: "LEDs Intensity",
@@ -491,16 +490,16 @@
 
         // populate UI elems with dummy data
         updateconfelems();
-        create_doughnut(50, "inst-Vbat");
-        create_doughnut(50, "inst-Temp");
-        create_doughnut(50, "inst-LuxLed");
-        create_doughnut(50, "inst-ILed");
+        create_doughnut(20, "inst-Vbat");
+        create_doughnut(80, "inst-Temp");
+        create_doughnut(25, "inst-LuxLed");
+        create_doughnut(76, "inst-ILed");
 
        
 
         // fetch data from server & update UI elems
         getconfdata();
-        //getinstdata();
+        getinstdata();
 
 
     </script>
