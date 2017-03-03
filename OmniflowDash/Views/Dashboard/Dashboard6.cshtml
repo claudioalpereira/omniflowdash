@@ -2,6 +2,7 @@
 @{
     Layout = null;
 }
+}
 @*
     http://stackoverflow.com/questions/23797331/using-swipe-gestures-to-change-pages-in-multi-page-jquery-mobile-application
 *@
@@ -16,8 +17,29 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
+    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+    
+    @* Date library *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 
+    @*
+        <link rel="stylesheet" href="~/Content/bootstrap.theme.slate.min.css" />
+    *@
+    @*
+    <style>
+        changes JQuery background color
+        .ui-page { background:#2b2e31; }
+
+    </style>
+     *@
+    <style type="text/css">
+        #article1 {
+            background: url('../../Content/img/ofsplash.jpg');
+            }
+
+     
+    </style>
 </head>
 <body>
 
@@ -41,6 +63,35 @@
             <h1>InstData</h1>
         </div>
         <div data-role="content">
+           
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <canvas id="inst-Vbat"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas id="inst-Temp"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <canvas id="inst-LuxLed"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas id="inst-ILed"></canvas>
+                </div>
+            </div>
+
+        
+
+
+            <div><strong>IMEI: </strong><span id="inst_imei"></span></div>
+            <div><strong>Version: </strong><span id="inst_version"></span></div>
+            <div><strong>Revision: </strong><span id="inst_revision"></span></div>
+            <div><strong>DeviceType: </strong><span id="inst_device"></span></div>
+            <div><strong>SerialNumber: </strong><span id="inst_serial"></span></div>
+
+            <div><strong>Last Update: </strong><span id="instdata_lastupdate"></span></div>
 
         </div>
     </div>
@@ -55,6 +106,7 @@
             <canvas id="buyers" width="600" height="400"></canvas>
             <canvas id="cf-chartV" width="600" height="400"></canvas>
             <canvas id="cf-chartP" width="600" height="400"></canvas>
+            <div><strong>Last Update: </strong><span id="confdata_lastupdate"></span></div>
 
         </div>
     </div>
@@ -136,6 +188,32 @@
     ----------------------------------------------------------------*@
     <script>
 
+        ///////////////////////////////////////
+        // initial dummy data
+
+        var state, measures;
+        var UPDATE_STATE_FREQ = 5 * 60 * 1000,
+            UPDATE_INSTDATA_FREQ = 60 * 1000,
+            UPDATE_CONFDATA_FREQ = 5 * 60 * 1000;
+
+        var instdata = {
+            CurrentLed:53,
+            DeviceType:"",
+            IntensityLed:0,
+            LoadIn:0,
+            PIR1State:0,
+            PIR2State:0,
+            RelePower:0,
+            Revision:1,
+            SerialNumber:"",
+            TElec:166,
+            UpdateInstDate:"2017-03-03",
+            UpdateInstTime:"17:19:00",
+            VBat:14140,
+            Version:"2",
+            imei:"357976063980593"
+        }
+
         var confdata = {
             T1: 15,
             T2: 30,
@@ -165,38 +243,61 @@
             UpdateConfDate: "",
             UpdateConfTime: ""
         };
+
+        ///////////////////////////////////////
+        // retrieve data from OF server
+
+        function getstate() {
+            console.log('fetching for state');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getstate",
+                function (data) {
+                    state = $.parseJSON(data);
+                    console.log("state data is updated");
+                    updatetateelem();
+                    setTimeout(getstate, UPDATE_STATE_FREQ);
+                }
+            );
+        }
+
+        function getinstdata() {
+            console.log('fetching for instdata');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getinstdata",
+                    function (data) {
+                        instdata = $.parseJSON(data);
+                        console.log("inst data is updated");
+                        updateinstdataelem();
+                        setTimeout(getinstdata, UPDATE_INSTDATA_FREQ)
+                    }
+                );
+        }
+
         function getconfdata() {
             console.log('fetching for conf');
             $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
                     function (data) {
                         confdata = $.parseJSON(data);
-                        console.log("confdata is updated");
-                        updateconfelem();
+                        console.log("conf data is updated");
+                        updateconfelems();
+                        $("#confdata_lastupdate").text(moment().format('DD-MM-YYYY hh:mm:ss'));
                         setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
                     }
                 );
         }
 
-        @* http://stackoverflow.com/questions/17445231/js-how-to-find-the-greatest-common-divisor *@
-        @* maximo divisor comum entre dois valores *@
-        var gcd2 = function (a, b) {
-            return (!b) ? a : gcd(b, a % b);
-        };
-
-        @* http://www.w3resource.com/javascript-exercises/javascript-math-exercise-9.php *@
-        @* maximo divisor comum entre varios valores *@
-        function gcd() {
-
-            var a, b;
-
-            a = arguments[0];
-            for (var i = 1; i < arguments.length; i++) {
-                b = arguments[i];
-                a = gcd2(a, b);
-            }
-            return a;
+        function getmeasures() {
+            console.log('fetching for measures');
+            $.getJSON("http://omniflowhttp.apphb.com/api/v1/getmeasures?from=" + formatDate(new Date().addDays(-0.5)) + "&to=" + formatDate(new Date()),
+                    function (data) {
+                        measures = $.parseJSON(data);
+                        console.log("measure data is updated");
+                        updatemeasureselem();
+                    }
+                );
         }
 
+
+        ///////////////////////////////////////
+        // update UI elems
 
         function updateChartConfT() {
 
@@ -290,9 +391,117 @@
             });
         }
 
-        updateChartConfT();
-        updateChartConfP();
-        updateChartConfV();
+        function create_doughnut(v, canvas) {
+
+            var pieData = [
+            {
+                value: v,
+                color: "#3F9F3F"
+            },
+            {
+                value: 100 - v
+            }
+            ];
+
+            var data = {
+                labels: [
+                    "Red",
+                    "Blue"
+                ],
+                datasets: [
+                    {
+                        data: [v, 100 - v],
+                        backgroundColor: [
+                            "#3F9F3F",
+                            "#222"
+                        ]
+                    }]
+            };
+
+            var ctx = document.getElementById(canvas);
+
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    elements: {
+                        arc: {
+                            borderWidth: 0
+                        }
+                    },
+                    cutoutPercentage: 70,
+                    border: 0,
+                    title: {
+                        display: true,
+                        text: v
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        }
+
+        function updateconfelems() {
+            updateChartConfT();
+            updateChartConfP();
+            updateChartConfV();
+        }
+
+        function updateinstelems() {
+
+            $("#inst_imei").text(instdata);
+            $("#inst_version").text(instdata);
+            $("#inst_revision").text(instdata);
+            $("#inst_device").text(instdata);
+            $("#inst_serial").text(instdata);
+           
+        }
+
+        ///////////////////////////////////////
+        // aux functions
+
+        function formatDate(d) {
+            return d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate();
+        }
+
+        @* http://stackoverflow.com/questions/17445231/js-how-to-find-the-greatest-common-divisor *@
+        @* maximo divisor comum entre dois valores *@
+        var gcd2 = function (a, b) {
+            return (!b) ? a : gcd(b, a % b);
+        };
+
+        @* http://www.w3resource.com/javascript-exercises/javascript-math-exercise-9.php *@
+        @* maximo divisor comum entre varios valores *@
+        function gcd() {
+
+            var a, b;
+
+            a = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                b = arguments[i];
+                a = gcd2(a, b);
+            }
+            return a;
+        }
+
+
+        ///////////////////////////////////////
+        // init
+
+        // populate UI elems with dummy data
+        updateconfelems();
+        create_doughnut(50, "inst-Vbat");
+        create_doughnut(50, "inst-Temp");
+        create_doughnut(50, "inst-LuxLed");
+        create_doughnut(50, "inst-ILed");
+
+       
+
+        // fetch data from server & update UI elems
+        getconfdata();
+        //getinstdata();
+
 
     </script>
 
