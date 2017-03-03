@@ -99,69 +99,68 @@
         </div>
     </div>
 
-
+    @*--------------------------------------------------------------
+        Swipe script
+    ----------------------------------------------------------------*@
     <script>
-$('#article1').on('swipedown',function(){alert("swipedown..");} );
-$('#article1').on('swipeup',function(){alert("swipeup..");} );
-$(document).on('swipeleft', '.ui-page', function(event){
-    if(event.handled !== true) // This will prevent event triggering more then once
-    {
-        var nextpage = $.mobile.activePage.next('[data-role="page"]');
-        // swipe using id of next page if exists
-        if (nextpage.length > 0) {
-            $.mobile.changePage(nextpage, {transition: "slide", reverse: false}, true, true);
-        }
-        event.handled = true;
-    }
-    return false;
-});
+        $('#article1').on('swipedown',function(){alert("swipedown..");} );
+        $('#article1').on('swipeup',function(){alert("swipeup..");} );
+        $(document).on('swipeleft', '.ui-page', function(event){
+            if(event.handled !== true) // This will prevent event triggering more then once
+            {
+                var nextpage = $.mobile.activePage.next('[data-role="page"]');
+                // swipe using id of next page if exists
+                if (nextpage.length > 0) {
+                    $.mobile.changePage(nextpage, {transition: "slide", reverse: false}, true, true);
+                }
+                event.handled = true;
+            }
+            return false;
+        });
 
-$(document).on('swiperight', '.ui-page', function(event){
-    if(event.handled !== true) // This will prevent event triggering more then once
-    {
-        var prevpage = $(this).prev('[data-role="page"]');
-        if (prevpage.length > 0) {
-            $.mobile.changePage(prevpage, {transition: "slide", reverse: true}, true, true);
-        }
-        event.handled = true;
-    }
-    return false;
-});
+        $(document).on('swiperight', '.ui-page', function(event){
+            if(event.handled !== true) // This will prevent event triggering more then once
+            {
+                var prevpage = $(this).prev('[data-role="page"]');
+                if (prevpage.length > 0) {
+                    $.mobile.changePage(prevpage, {transition: "slide", reverse: true}, true, true);
+                }
+                event.handled = true;
+            }
+            return false;
+        });
     </script>
 
-    @* Chart.js script*@
-    <script>
-
-    
-    </script>
-
+    @*--------------------------------------------------------------
+        OF script
+    ----------------------------------------------------------------*@
     <script>
 
         var confdata = {
-            T1: "15",
-            T2: "30",
-            T3: "500",
+            T1: 15,
+            T2: 30,
+            T3: 500,
 
-            V1: "13750",
-            DeltaV1: "500",
-            V2: "12500",
-            DeltaV2: "500",
-            V3: "12000",
-            DeltaV3: "500",
+            V1: 13750.0,
+            DeltaV1: 500.0,
+            V2: 12500.0,
+            DeltaV2: 500.0,
+            V3: 12000.0,
+            DeltaV3: 500.0,
 
-            P1: "20",
-            P2: "15",
-            POn: "65",
-            PPir: "65",
+            P1: 20,
+            P2: 15,
+            POn: 65,
+            PPir: 65,
 
-            ReleAuxMode: "3",
-            ReleAuxPirTime: "15",
-            ReleAuxTimerDay: "120",
-            ReleAuxTimerNight: "120",
-            ReleAuxVBatOff: "12500",
-            ReleAuxVBatOn: "12700",
-            RelePowerVBatOff: "13000",
-            RelePowerVBatOn: "0",
+            ReleAuxMode: 3,
+            ReleAuxPirTime: 15,
+            ReleAuxTimerDay: 120,
+            ReleAuxTimerNight: 120,
+            ReleAuxVBatOff: 12500,
+            ReleAuxVBatOn: 12700,
+            RelePowerVBatOff: 13000,
+            RelePowerVBatOn: 0,
 
             UpdateConfDate: "",
             UpdateConfTime: ""
@@ -171,6 +170,7 @@ $(document).on('swiperight', '.ui-page', function(event){
             $.getJSON("http://omniflowhttp.apphb.com/api/v1/getconfdata",
                     function (data) {
                         confdata = $.parseJSON(data);
+                        console.log("confdata is updated");
                         updateconfelem();
                         setTimeout(getconfdata, UPDATE_CONFDATA_FREQ);
                     }
@@ -198,7 +198,7 @@ $(document).on('swiperight', '.ui-page', function(event){
         }
 
 
-        function updateconfelem() {
+        function updateChartConfT() {
 
             var x1 = confdata.T3;
             var x2 = confdata.T3 + confdata.T1;
@@ -215,13 +215,14 @@ $(document).on('swiperight', '.ui-page', function(event){
             l[x2] = 'T1';
             l[x3] = 'T2';
 
-
+            //console.log(l);
 
             var dd = new Array(9).fill(undefined);
             dd.splice(0, 1, 2);
             dd.splice(3, 1, 7);
             dd.splice(5, 1, 7);
 
+            //console.log(dd);
 
             new Chart(document.getElementById('buyers'), {
                 type: "line",
@@ -229,7 +230,9 @@ $(document).on('swiperight', '.ui-page', function(event){
                     labels: ["", "T3", "T1", "T2"],
                     datasets: [
                         {
-                            data: [0, undefined, 1, 0],
+                            label: "temporização LEDs",
+                            data: [0, confdata.T3, confdata.T1, confdata.T2],
+                            //data: dd,
                             lineTension: 0,
                             spanGaps: true
                         }
@@ -239,16 +242,38 @@ $(document).on('swiperight', '.ui-page', function(event){
         }
 
         function updateChartConfV() {
+              new Chart(document.getElementById('cf-chartV'), {
+                  type: "bar",
+                  data: {
+                      labels: ["OFF", "Stand By", "", "PPir no mov.", "", "always ON"],
+                      datasets: [
+                          {
+                              label: "State Thresholds",
+                              data: [confdata.V3 / 1000.0, (confdata.V3 + confdata.DeltaV3) / 1000.0, confdata.V2 / 1000.0, (confdata.V2 + confdata.DeltaV2) / 1000.0, confdata.V1 / 1000.0, (confdata.V1 + confdata.DeltaV1) / 1000.0]
+                          }
+                      ]
+                  },
+                  options: {
+                      scales: {
+                          xAxes: [{
+                              categoryPercentage: 1.0,
+                              barPercentage: 1.0
+                          }]
+                      }
+                  }
 
+              });
         }
 
         function updateChartConfP() {
             new Chart(document.getElementById('cf-chartP'), {
                 type: "bar",
                 data: {
-                    labels: ["", "P2", "P1", "PPir", "POn"],
+                    labels: ["OFF", "Stand By", "PPir no mov.", "PPir mov.", "always ON"],
                     datasets: [
                         {
+                            label: "LEDs Intensity",
+                            //                    data: [0, confdata.P2, confdata.P1, confdata.PPir, confdata.POn]
                             data: [0, confdata.P2, confdata.P1, confdata.PPir, confdata.POn]
                         }
                     ]
@@ -264,28 +289,10 @@ $(document).on('swiperight', '.ui-page', function(event){
 
             });
         }
+
+        updateChartConfT();
         updateChartConfP();
-        var buyers = document.getElementById('buyers').getContext('2d');
-
-        var buyerData = {
-            labels: ["January", "February", "March", "April", "May", "June"],
-            datasets: [
-                {
-                    fillColor: "rgba(172,194,132,0.4)",
-                    strokeColor: "#ACC26D",
-                    pointColor: "#fff",
-                    pointStrokeColor: "#9DB86D",
-                    data: [203, 156, 99, 251, 305, 247]
-                }
-            ]
-        };
-
-        //new Chart(buyers).Line(buyerData);
-        new Chart(document.getElementById('buyers'), {
-            type: "line",
-            data: buyerData,
-        });
-
+        updateChartConfV();
 
     </script>
 
