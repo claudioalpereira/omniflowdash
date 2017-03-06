@@ -264,7 +264,7 @@
                     function (data) {
                         instdata = $.parseJSON(data);
                         console.log("inst data is updated");
-                        updateinstdataelem();
+                        updateinstelems();
                         setTimeout(getinstdata, UPDATE_INSTDATA_FREQ)
                     }
                 );
@@ -449,11 +449,17 @@
 
         function updateinstelems() {
 
-            $("#inst_imei").text(instdata);
-            $("#inst_version").text(instdata);
-            $("#inst_revision").text(instdata);
-            $("#inst_device").text(instdata);
-            $("#inst_serial").text(instdata);
+            create_doughnut(20, "inst-Vbat");
+            create_doughnut(80, "inst-Temp");
+            create_doughnut(25, "inst-LuxLed");
+            create_doughnut(76, "inst-ILed");
+
+            $("#inst_imei").text(instdata.imei);
+            $("#inst_version").text(instdata.Version);
+            $("#inst_revision").text(instdata.Revision);
+            $("#inst_device").text(instdata.DeviceType);
+            $("#inst_serial").text(instdata.SerialNumber);
+            $("#instdata_lastupdate").text(instdata.UpdateInstDate+" "+instdata.UpdateInstTime);
            
         }
 
@@ -490,10 +496,6 @@
 
         // populate UI elems with dummy data
         updateconfelems();
-        create_doughnut(20, "inst-Vbat");
-        create_doughnut(80, "inst-Temp");
-        create_doughnut(25, "inst-LuxLed");
-        create_doughnut(76, "inst-ILed");
 
        
 
