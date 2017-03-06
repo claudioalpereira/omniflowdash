@@ -159,7 +159,7 @@
         <div data-role="content"  class="prevent_swipe">
             <!-- T -->
             <label for="conf_T3">Fade in PPir mode (ms):</label>
-            <input type="range" name="conf_T3" id="conf_T3" value="" min="10" max="2000" step="1" data-highlight="true">
+            <input type="range" name="conf_T3" id="conf_T3" value="" min="10" max="2000" step="10" data-highlight="true">
 
             <label for="conf_T1">PPir LEDs mode time (s):</label>
             <input type="range" name="conf_T1" id="conf_T1" value="" min="15" max="120" step="1" data-highlight="true">
@@ -179,16 +179,16 @@
 
             <!-- P -->
             <label for="conf_P2">StandBy Mode:</label>
-            <input type="range" name="conf_P2" id="conf_P2" value="" min="9" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_P2" id="conf_P2" value="" min="0" max="" step="5" data-highlight="true">
 
             <label for="conf_P1">PPir (without movement):</label>
-            <input type="range" name="conf_P1" id="conf_P1" value="" min="9" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_P1" id="conf_P1" value="" min="" max="" step="5" data-highlight="true">
 
             <label for="conf_PPir">PPir (with movement):</label>
-            <input type="range" name="conf_PPir" id="conf_PPir" value="" min="9" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_PPir" id="conf_PPir" value="" min="" max="" step="5" data-highlight="true">
 
             <label for="conf_POn">Always ON Mode:</label>
-            <input type="range" name="conf_POn" id="conf_POn" value="" min="9" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_POn" id="conf_POn" value="" min="" max="100" step="5" data-highlight="true">
 
         </div>
     </div>
@@ -443,10 +443,21 @@
             $("#conf_V3").attr("max", tt2);
 
             // P
-            $("#conf_P1").val(confdata.P1);
             $("#conf_P2").val(confdata.P2);
-            $("#conf_POn").val(confdata.POn);
+            $("#conf_P2").attr("min", 0);
+            $("#conf_P2").attr("max", confdata.P1);
+
+            $("#conf_P1").val(confdata.P1);
+            $("#conf_P1").attr("min", confdata.P2);
+            $("#conf_P1").attr("max", confdata.PPir);
+
             $("#conf_PPir").val(confdata.PPir);
+            $("#conf_PPir").attr("min", confdata.P1);
+            $("#conf_PPir").attr("max", confdata.POn);
+
+            $("#conf_POn").val(confdata.POn);
+            $("#conf_POn").attr("min", confdata.PPir);
+            $("#conf_POn").attr("max", 100);
         }
 
         function updateinstelems() {
