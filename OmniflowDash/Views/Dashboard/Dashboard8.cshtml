@@ -147,12 +147,12 @@
                                         <li>
                                             <span class="circle circle-md bg-danger"><i class="mdi mdi-car-battery"></i></span>
                                         </li>
-                                        <li class="col-last"><h3 class="counter text-right m-t-15">23.5</h3></li>
+                                        <li class="col-last"><h3 class="counter text-right m-t-15" id="instdata-VBat">0</h3></li>
                                         <li class="col-middle">
-                                            <h4>Battery Volt.</h4>
+                                            <h4>Battery Volt. [V]</h4>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                    <span class="sr-only">40% Complete (success)</span>
+                                                <div id="instdata-vbat-pb" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                                    <span class="sr-only"></span>
                                                 </div>
                                             </div>
                                         </li>
@@ -164,11 +164,11 @@
                                         <li>
                                             <span class="circle circle-md bg-info"><i class="ti-plug"></i></span>
                                         </li>
-                                        <li class="col-last"><h3 class="counter text-right m-t-15">76</h3></li>
+                                        <li class="col-last"><h3 class="counter text-right m-t-15" id="instdata-LEDCurr">0</h3></li>
                                         <li class="col-middle">
-                                            <h4>LED Current</h4>
+                                            <h4>LED Current [A]</h4>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                <div id="instdata-ledcurr-pb" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -181,11 +181,11 @@
                                         <li>
                                             <span class="circle circle-md bg-success"><i class="mdi mdi-lightbulb-on-outline"></i></span>
                                         </li>
-                                        <li class="col-last"><h3 class="counter text-right m-t-15">80</h3></li>
+                                        <li class="col-last"><h3 class="counter text-right m-t-15" id="instdata-ILED">0</h3></li>
                                         <li class="col-middle">
-                                            <h4>LED Intensity</h4>
+                                            <h4>LED Intensity [%]</h4>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                <div id="instdata-iled-pb" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -198,11 +198,11 @@
                                         <li>
                                             <span class="circle circle-md bg-warning"><i class="wi wi-thermometer"></i></span>
                                         </li>
-                                        <li class="col-last"><h3 class="counter text-right m-t-15">125</h3></li>
+                                        <li class="col-last"><h3 class="counter text-right m-t-15" id="instdata-Temp">0</h3></li>
                                         <li class="col-middle">
-                                            <h4>CPU Temp.</h4>
+                                            <h4>CPU Temp. [ºC]</h4>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                <div id="instdata-temp-pb" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -252,31 +252,25 @@
                             <ul class="dp-table m-t-30">
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:30%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>OFF</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:60%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-VSB" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>Stand By</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="height:80%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-VPPir" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>PPir</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="height:30%;"> <span class="sr-only">88% Complete</span> </div>
-                                    </div>
-                                    <br /> <b>PPir mov.</b>
-                                </li>
-                                <li>
-                                    <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="height:40%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-Von" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>ON</b>
                                 </li>
@@ -291,31 +285,31 @@
                             <ul class="dp-table m-t-30">
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:30%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>OFF</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:60%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-ISB" class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>Stand By</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="height:80%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-IPPir0" class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>PPir</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="height:30%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-IPPir1" class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>PPir mov.</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
-                                        <div class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="height:40%;"> <span class="sr-only">88% Complete</span> </div>
+                                        <div id="conf-Ion" class="progress-bar progress-bar-info bg-success" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
                                     <br /> <b>ON</b>
                                 </li>
@@ -460,19 +454,7 @@
     <script src="../../SiteTemplates/aadark/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
     <script>
 
-new Chartist.Pie(
-	'.ct-gauge-chart',
-	{
-		series: [3, 30, 8], labels: ["Dim On","ON","Dim Off"]
-	},
-	{
-	  donut: true,
-	  donutWidth: 30,
-	  startAngle: 270,
-	  total: 82,
-	  low:0,
-	  showLabel: true
-	});
+
 
     </script>
 
@@ -506,7 +488,10 @@ new Chartist.Pie(
             if (topic == TOPIC_INSTDATA) {
                 instdata = $.parseJSON(message);
                 console.log("inst data was updated");
-                updateinstelems();
+
+                //TODO: usar windows.onLoar ou document.ready
+                setTimeout(updateinstelems, 2000);
+                
             }
             else if (topic == TOPIC_CONFDATA) {
                 confdata = $.parseJSON(message);
@@ -527,11 +512,56 @@ new Chartist.Pie(
         var state, measures, instdata, confdata;
 
         function updateinstelems() {
+            console.log("xxx");
+            var v = (instdata.VBat / 1000).toFixed(1);
+            $('#instdata-VBat').text(v);
+            $('#instdata-vbat-pb').width((v / 20) * 100 + "%");
 
+            var i = (instdata.CurrentLed / 1000).toFixed(1);
+            $('#instdata-LEDCurr').text(i);
+            $('#instdata-ledcurr-pb').width((i / 20) * 100 + "%");
 
+            var ii = (instdata.IntensityLed);
+            $('#instdata-ILED').text(ii);
+            $('#instdata-iled-pb').width(ii + "%");
+
+            var t = (instdata.TElec / 10).toFixed(1);
+            $('#instdata-Temp').text(t);
+            $('#instdata-temp-pb').width(t + "%");
+            console.log("fff");
         }
 
         function updateconfelems() {
+            // Timing gauge
+            new Chartist.Pie(
+	            '.ct-gauge-chart',
+	            {
+	                series: [confdata.T3/1000, confdata.T1, confdata.T2], labels: ["Dim On", "ON", "Dim Off"]
+	            },
+	            {
+	                donut: true,
+	                donutWidth: 30,
+	                startAngle: 270,
+	                total: (confdata.T3 / 1000 + parseFloat(confdata.T1) + parseFloat(confdata.T2)) * 2,
+	                low: 0,
+	                showLabel: true
+	            });
+
+            //
+            var v3 = (confdata.V3 / 1000).toFixed(1);
+            $('#conf-VSB').height((v3 / 20) * 100 + "%");
+            var v2 = (confdata.V2 / 1000).toFixed(1);
+            $('#conf-VPPir').height((v2 / 20) * 100 + "%");
+            var v1 = (confdata.V1 / 1000).toFixed(1);
+            $('#conf-Von').height((v1 / 20) * 100 + "%");
+
+            //
+            $('#conf-ISB').height(confdata.P2 + "%");
+            $('#conf-IPPir0').height(confdata.P1 + "%");
+            $('#conf-IPPir1').height(confdata.PPir + "%");
+            $('#conf-Ion').height(confdata.POn + "%");
+            
+
         }
 
         function updatemeasureelems() {
