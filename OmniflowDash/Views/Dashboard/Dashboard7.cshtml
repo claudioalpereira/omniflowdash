@@ -169,13 +169,13 @@
  
             <!-- V -->
             <label for="conf_V3">Min Voltage (OFF/StandBy):</label>
-            <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.5" data-highlight="true">
 
             <label for="conf_V2">(StandBy/PPir):</label>
-            <input type="range" name="conf_V2" id="conf_V2" value="" min="" max="" step="0.1" data-highlight="true">
+            <input type="range" name="conf_V2" id="conf_V2" value="" min="" max="" step="0.5" data-highlight="true">
 
             <label for="conf_V1">(PPir/Always ON):</label>
-            <input type="range" name="conf_V1" id="conf_V1" value="" min="" max="16.5" step="0.1" data-highlight="true">
+            <input type="range" name="conf_V1" id="conf_V1" value="" min="" max="16.5" step="0.5" data-highlight="true">
 
             <!-- P -->
             <label for="conf_P2">StandBy Mode:</label>
@@ -416,6 +416,7 @@
             });
         }
 
+
         function updateconfelems() {
             updateChartConfT();
             updateChartConfP();
@@ -433,6 +434,7 @@
             var tt3 = (confdata.V3/1000).toFixed(2);
             
             $("#conf_V1").val(tt1);
+//            $("#conf_V1").attr("value", tt1);
             $("#conf_V1").attr("min", tt2);
 
             $("#conf_V2").val(tt2);
