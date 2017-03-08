@@ -71,8 +71,8 @@
                     <!-- Logo -->
                     <a class="logo" href="index.html">
                         <!-- Logo icon image, you can use font-icon also --><b>
-                            <!--<img src="../../SiteTemplates/aadark/plugins/images/admin-logo.png" alt="home" class="dark-logo" />
-                                <img src="../../SiteTemplates/aadark/plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />-->
+                            <img src="../../SiteTemplates/aadark/plugins/images/admin-logo.png" alt="home" class="dark-logo" />
+                             <!--   <img src="../../SiteTemplates/aadark/plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />-->
                         </b>
                         <!-- Logo text image you can use text also -->
                         <span class="hidden-xs">
@@ -97,7 +97,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <!-- <div class="navbar-default sidebar" role="navigation">
+        <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav slimscrollsidebar">
                 <div class="sidebar-head">
                     <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation</span></h3>
@@ -122,7 +122,7 @@
                 </ul>
             </div>
         </div>
-            -->
+            
         <!-- ============================================================== -->
         <!-- End Left Sidebar -->
         <!-- ============================================================== -->
@@ -172,7 +172,7 @@
                                 <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                     <ul class="col-in">
                                         <li>
-                                            <span class="circle circle-md bg-info"><i class="ti-plug"></i></span>
+                                            <span class="circle circle-md bg-info"><i class="mdi mdi-battery-charging-20"></i></span>
                                         </li>
                                         <li class="col-last"><h3 class="counter text-right m-t-15" id="instdata-LEDCurr">0</h3></li>
                                         <li class="col-middle">
@@ -344,8 +344,8 @@
                         <div class="white-box">
                             <div class="row">
                                 <div class="col-xs-8">
-                                    <h2 class="m-b-0 font-medium">Sunday</h2>
-                                    <h5 class="text-muted m-t-0">March 2017</h5>
+                                    <h2 class="m-b-0 font-medium">Wednesday</h2>
+                                    <h5 class="text-muted m-t-0">February 2017</h5>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="circle circle-md bg-success pull-right m-t-10"><i class="wi wi-day-sunny"></i></div>
@@ -354,7 +354,68 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title">
+                                Recent Alerts
+                                <div class="col-md-3 col-sm-4 col-xs-6 pull-right">
+                                    <select class="form-control pull-right row b-none">
+                                        <option>February</option>
+                                    </select>
+                                </div>
+                            </h3>
+                            <div class="row sales-report">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <h2>February 2017</h2>
+                                    <p>ALERTS</p>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                    <h1 class="text-right text-info m-t-20">25</h1>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Lvl</th>
+                                            <th>DATE</th>
+                                            <th>NAME</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="label label-success label-rouded">1</span> </td>
+                                            <td class="txt-oflo">Feb 18</td>
+                                            <td class="txt-oflo">System updated</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="label label-warning label-rouded">2</span> </td>
+                                            <td class="txt-oflo">Feb 12</td>
+                                            <td class="txt-oflo">Low Voltage</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="label label-info label-rouded">0</span> </td>
+                                            <td class="txt-oflo">Feb 12</td>
+                                            <td class="txt-oflo">System rebooted</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="label label-danger label-rouded">3</span> </td>
+                                            <td class="txt-oflo">Feb 8</td>
+                                            <td class="txt-oflo">Very Low Voltage</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="label label-info label-rouded">0</span> </td>
+                                            <td class="txt-oflo">Feb 4</td>
+                                            <td class="txt-oflo">Movement detected</td>
+                                        </tr>
 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- ============================================================== -->
                 <!-- start right sidebar -->
                 <!-- ============================================================== -->
@@ -507,7 +568,7 @@
             else if (topic == TOPIC_CONFDATA) {
                 confdata = $.parseJSON(message);
                 console.log("conf data was updated");
-                updateconfelems();
+                setTimeout(updateconfelems, 2000);
             }
             else if (topic == TOPIC_MEASURES) {
                 measures = $.parseJSON(message);
