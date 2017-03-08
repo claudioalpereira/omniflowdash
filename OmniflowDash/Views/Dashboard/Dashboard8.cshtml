@@ -133,7 +133,8 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Dashboard 1</h4>
+                        <h4 class="page-title"></h4>
+                        <h3 id="of_state"></h3>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
@@ -219,6 +220,7 @@
 
                                     </ul>
                                 </div>
+                                <h5 id="instdata_last_refresh" class="text-muted text-right m-t-0"></h5>
                             </div>
                         </div>
                     </div>
@@ -473,21 +475,20 @@
     <script>
 
         var BROKER_URL = "ws://test.mosquitto.org:8080";
+        var TOPIC_STATE = "clealp/sie/of/state";
         var TOPIC_INSTDATA = "clealp/sie/of/instdata";
         var TOPIC_CONFDATA = "clealp/sie/of/confdata";
         var TOPIC_MEASURES = "clealp/sie/of/measures";
         var TOPIC_PUT = "clealp/sie/of/put";
         var TOPIC = "clealp/sie/of";
 
-        //var client = mqtt.connect('ws://52.39.125.106:1884');
-        //var client = mqtt.connect('ws://test.mosquitto.org:8080');
         var client = mqtt.connect(BROKER_URL);
 
         client.on('connect', function () {
-            //client.subscribe('owntracks/claudioalpereira/mymi');
             client.subscribe(TOPIC_INSTDATA);
             client.subscribe(TOPIC_CONFDATA);
             client.subscribe(TOPIC_MEASURES);
+            client.subscribe(TOPIC_STATE);
             //client.publish('clealp/sie/of', 'Hello mqtt');
         })
 
@@ -510,8 +511,12 @@
             }
             else if (topic == TOPIC_MEASURES) {
                 measures = $.parseJSON(message);
-                console.log("measures was updated");
+            //    console.log("measures was updated");
                 //updatemeasureelems();
+            }
+            else if (topic == TOPIC_STATE) {
+                state = $.parseJSON(message);
+                updateStateElems();
             }
 
             //client.end();
@@ -538,7 +543,9 @@
             var t = (instdata.TElec / 10).toFixed(1);
             $('#instdata-Temp').text(t);
             $('#instdata-temp-pb').width(t + "%");
-            console.log("fff");
+            
+
+            $("#instdata_last_refresh").text(instdata.UpdateInstDate + " " + instdata.UpdateInstTime);
         }
 
         function updateconfelems() {
@@ -572,6 +579,10 @@
             $('#conf-Ion').height(confdata.POn + "%");
             
 
+        }
+
+        function updateStateElelms(){
+            console.log(state);
         }
 
         function updatemeasureelems() {
