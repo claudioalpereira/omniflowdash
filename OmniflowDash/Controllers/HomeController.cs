@@ -10,7 +10,7 @@ namespace OmniflowDash.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("../Dashboard/Dashboard8");
         }
 
         public ActionResult About()

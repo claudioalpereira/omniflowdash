@@ -271,7 +271,7 @@
                                     <div class="progress progress-md progress-vertical-bottom m-0">
                                         <div id="conf-VSB" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height:0%;"> <span class="sr-only">88% Complete</span> </div>
                                     </div>
-                                    <br /> <b>Stand By</b>
+                                    <br /> <b>SBy</b>
                                 </li>
                                 <li>
                                     <div class="progress progress-md progress-vertical-bottom m-0">
@@ -535,7 +535,10 @@
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script>
 
-        var BROKER_URL = "ws://test.mosquitto.org:8080";
+        //var BROKER_URL = "ws://test.mosquitto.org:8080";
+        //var BROKER_URL = "ws://test.mosca.io:80";
+        //var BROKER_URL = "ws://iot.eclipse.org:80";
+        var BROKER_URL = "ws://52.39.125.106:1885";
         var TOPIC_STATE = "clealp/sie/of/state";
         var TOPIC_INSTDATA = "clealp/sie/of/instdata";
         var TOPIC_CONFDATA = "clealp/sie/of/confdata";
