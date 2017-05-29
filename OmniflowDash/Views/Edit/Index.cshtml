@@ -158,18 +158,19 @@
                                 <div data-role="content" class="prevent_swipe">
 
                                     <!-- V -->
-                                    <label for="conf_V3">OFF:</label>
-                                    <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.5" data-highlight="true">
+                                    @*<label for="conf_V3">OFF:</label>
+                                    <input type="range" name="conf_V3" id="conf_V3" value="[10,15]" min="9" max="17" step="0.5" data-highlight="true">
 
                                     <label for="conf_V3">StandBy:</label>
-                                    <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.5" data-highlight="true">
+                                    <input type="range" name="conf_V3" id="conf_V3" value="10" min="9" max="17" step="0.5" data-highlight="true">
 
                                     <label for="conf_V2">PPir:</label>
-                                    <input type="range" name="conf_V2" id="conf_V2" value="" min="" max="" step="0.5" data-highlight="true">
+                                    <input type="range" name="conf_V2" id="conf_V2" value="" min="9" max="17" step="0.5" data-highlight="true">
 
                                     <label for="conf_V1">ON:</label>
-                                    <input type="range" name="conf_V1" id="conf_V1" value="" min="" max="16.5" step="0.5" data-highlight="true">
+                                    <input type="range" name="conf_V1" id="conf_V1" value="" min="9" max="17" step="0.5" data-highlight="true">*@
 
+                                    <div id="range_04"></div>
                                 </div>
                         </div>
                     </div>
@@ -242,8 +243,10 @@
     <!--Style Switcher -->
     <script src="../../SiteTemplates/aadark/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
-
-
+    <script src="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/js/ion-rangeslider/ion.rangeSlider.min.js"></script>
+    <script src="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/js/ion-rangeslider/ion.rangeSlider-init.js"></script>
+    <link href="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/css/ion.rangeSlider.skinSimple.css" rel="stylesheet" />
    
     <script>
 
