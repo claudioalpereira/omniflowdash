@@ -170,7 +170,19 @@
                                     <label for="conf_V1">ON:</label>
                                     <input type="range" name="conf_V1" id="conf_V1" value="" min="9" max="17" step="0.5" data-highlight="true">*@
 
+                                    <div id="range_Voff"></div>
+                                    <div id="range_Vsby"></div>
+                                    <div id="range_Vppir"></div>
+                                    <div id="range_Von"></div>
+                                    @*<div>--------------------------------</div>
+                                    <div id="range_01"></div>
+                                    <div id="range_02"></div>
                                     <div id="range_03"></div>
+                                    <div id="range_04"></div>
+                                    <div id="range_16"></div>
+                                    <div id="range_18"></div>
+                                    <div id="range_22"></div*@>
+
                                 </div>
                         </div>
                     </div>
@@ -293,6 +305,109 @@
         })
     </script>
 
+
+    <script>
+        //http://ionden.com/a/plugins/ion.rangeslider/demo_advanced.html
+        //http://ionden.com/a/plugins/ion.rangeSlider/en.html/
+
+        var newV1, newV2, newV3;
+
+        $("#range_Voff").ionRangeSlider({
+            min: 11,
+            max: 16.5,
+            step: 0.1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "V",
+            max_postfix: "+",
+            min_postfix: "+",
+            force_edges: true,
+            type: "double",
+            from: 10,
+            to: 12,
+            from_fixed: true,
+            onChange: function (data) {
+                slider_Vsby.update({from:data.to});
+            },
+            onFinish: function (data) {
+                newV3 = data.to;
+            }
+        });
+        $("#range_Vsby").ionRangeSlider({
+            min: 11,
+            max: 16.5,
+            step: 0.1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "V",
+            max_postfix: "+",
+            min_postfix: "+",
+            force_edges: true,
+            type: "double",
+            from: 12,
+            to: 14,
+            onChange: function (data) {
+                slider_Voff.update({ to: data.from, to_max: data.to });
+                slider_Vppir.update({ from: data.to, from_min: data.from });
+
+            },
+            onFinish: function (data) {
+                newV3 = data.from;
+                newV2 = data.to;
+            }
+        });
+        $("#range_Vppir").ionRangeSlider({
+            min: 11,
+            max: 16.5,
+            step: 0.1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "V",
+            max_postfix: "+",
+            min_postfix: "+",
+            force_edges: true,
+            type: "double",
+            from: 14,
+            to: 15,
+            onChange: function (data) {
+                slider_Vsby.update({ to: data.from, to_max: data.to });
+                slider_Von.update({ from: data.to, from_min: data.from });
+            },
+            onFinish: function (data) {
+                newV2 = data.from;
+                newV1 = data.to;
+            }
+        });
+        $("#range_Von").ionRangeSlider({
+            min: 11,
+            max: 16.5,
+            step: 0.1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "V",
+            max_postfix: "+",
+            min_postfix: "+",
+            force_edges: true,
+            type: "double",
+            from: 15,
+            to: 111,
+            to_fixed: true,
+            onChange: function (data) {
+                slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newV1 = data.from;
+            }
+        });
+
+        // stores the objects for later updating
+        var slider_Voff = $("#range_Voff").data("ionRangeSlider");
+        var slider_Vsby = $("#range_Vsby").data("ionRangeSlider");
+        var slider_Vppir = $("#range_Vppir").data("ionRangeSlider");
+        var slider_Von = $("#range_Von").data("ionRangeSlider");
+    </script>
+
+
     <script>
         var state, measures, instdata, confdata;
 
@@ -336,6 +451,20 @@
             var tt1 = (confdata.V1 / 1000).toFixed(2);
             var tt2 = (confdata.V2 / 1000).toFixed(2);
             var tt3 = (confdata.V3 / 1000).toFixed(2);
+
+            //<div id="range_Voff"></div>
+            //<div id="range_Vsby"></div>
+            //<div id="range_Vppir"></div>
+            //<div id="range_Von"></div>
+
+         
+
+            slider_Voff.update({ to: tt3, to_max: tt2 });
+            slider_Vsby.update({ from: tt3, to: tt2, to_max: tt1 });
+            slider_Vppir.update({ from: tt2, to: tt1, from_min: tt3 });
+            slider_Von.update({ from: tt1 });
+
+
 
             $("#conf_V1").val(tt1);
             //            $("#conf_V1").attr("value", tt1);

@@ -246,6 +246,7 @@
     <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\css\ion.rangeSlider.css" />
     <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\css\ion.rangeSlider.skinSimple.css" />
     <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\img\sprite-skin-simple.png" />
+    <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\img\sprite-skin-simple2.png" />
     <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\js\ion-rangeslider\ion.rangeSlider-init.js" />
     <Content Include="SiteTemplates\aadark\plugins\bower_components\ion-rangeslider\js\ion-rangeslider\ion.rangeSlider.min.js" />
     <Content Include="SiteTemplates\aadark\plugins\bower_components\jquery-sparkline\jquery.charts-sparkline.js" />
