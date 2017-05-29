@@ -1,0 +1,396 @@
+﻿
+@{
+    Layout = null;
+    @*http://ampleadmin.themedesigner.in/demos/ampleadmin-dark/chartist-js.html*@
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../SiteTemplates/aadark/plugins/images/favicon.png">
+    <title>OmniFlow Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../../SiteTemplates/aadark/ampleadmin-dark/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- toast CSS -->
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- morris CSS -->
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- chartist CSS -->
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <!-- Calendar CSS -->
+    <link href="../../SiteTemplates/aadark/plugins/bower_components/calendar/dist/fullcalendar.css" rel="stylesheet" />
+    <!-- animation CSS -->
+    <link href="../../SiteTemplates/aadark/ampleadmin-dark/css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../../SiteTemplates/aadark/ampleadmin-dark/css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="../../SiteTemplates/aadark/ampleadmin-dark/css/colors/blue-dark.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" integrity="sha256-q5+FXlQok94jx7fkiX65EGbJ27/qobH6c6gmhngztLE=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/1.8.36/css/materialdesignicons.min.css" />
+
+
+
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a class="logo" href="index.html">
+                        <!-- Logo icon image, you can use font-icon also --><b>
+                            <img src="../../SiteTemplates/aadark/plugins/images/admin-logo.png" alt="home" class="dark-logo" />
+                            <!--   <img src="../../SiteTemplates/aadark/plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />-->
+                        </b>
+                        <!-- Logo text image you can use text also -->
+                        <span class="hidden-xs">
+                            <strong>SIEMENS</strong>
+                            <!--This is dark logo text-->
+                            <!--<img src="../../SiteTemplates/aadark/plugins/images/admin-text.png" alt="logo" class="dark-logo" />-->
+                            <!--This is light logo text-->
+                            <!--<img src="../../SiteTemplates/aadark/plugins/images/admin-text-dark.png" alt="home" class="light-logo" />-->
+                        </span>
+                    </a>
+                </div>
+                <!-- /Logo -->
+                <!-- Search input and Toggle icon -->
+
+
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-checkbox-multiple-marked-outline fa-fw"></i> <span class="hide-menu">Multi-Level Dropdown<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li> <a href="javascript:void(0)"><i data-icon="/" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Second Level Item</span></a> </li>
+                            <li> <a href="javascript:void(0)"><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Second Level Item</span></a> </li>
+                            <li>
+                                <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Third Level </span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li> <a href="javascript:void(0)"><i class=" fa-fw">T</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                    <li> <a href="javascript:void(0)"><i class=" fa-fw">M</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                    <li> <a href="javascript:void(0)"><i class=" fa-fw">R</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                    <li> <a href="javascript:void(0)"><i class=" fa-fw">G</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title"></h4>
+                        <h3 id="of_state"></h3>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            <li><a href="#">Edit</a></li>
+                            <li class="active">Edit</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <!-- ============================================================== -->
+                <!-- Different data widgets -->
+                <!-- ============================================================== -->
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">LED </h3>
+                            <h5 class="text-muted m-t-0">Based on tower sate.</h5>
+                                <div data-role="content" class="prevent_swipe">
+
+                                    <!-- V -->
+                                    <label for="conf_V3">OFF:</label>
+                                    <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.5" data-highlight="true">
+
+                                    <label for="conf_V3">StandBy:</label>
+                                    <input type="range" name="conf_V3" id="conf_V3" value="" min="9" max="" step="0.5" data-highlight="true">
+
+                                    <label for="conf_V2">PPir:</label>
+                                    <input type="range" name="conf_V2" id="conf_V2" value="" min="" max="" step="0.5" data-highlight="true">
+
+                                    <label for="conf_V1">ON:</label>
+                                    <input type="range" name="conf_V1" id="conf_V1" value="" min="" max="16.5" step="0.5" data-highlight="true">
+
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">LED Intensity</h3>
+                            <h5 class="text-muted m-t-0">Based on tower sate.</h5>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">LED timing</h3>
+                            <h5 class="text-muted m-t-0">Tower state based on battery voltage.</h5>
+
+                        </div>
+                    </div>
+
+                </div>
+              
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2017 &copy; Siemens S.A. </footer>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/js/waves.js"></script>
+    <!--Counter js -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+    <!--Morris JavaScript -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/raphael/raphael-min.js"></script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/morrisjs/morris.js"></script>
+    <!-- chartist chart -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/chartist-js/dist/chartist.min.js"></script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- Calendar JavaScript -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/moment/moment.js"></script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/calendar/dist/fullcalendar.min.js"></script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/calendar/dist/cal-init.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/js/custom.min.js"></script>
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/js/dashboard4.js"></script>
+    <!-- Custom tab JavaScript -->
+    <script src="../../SiteTemplates/aadark/ampleadmin-dark/js/cbpFWTabs.js"></script>
+    <script type="text/javascript">
+        (function () {
+                [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
+                new CBPFWTabs(el);
+            });
+        })();
+    </script>
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+    <!--Style Switcher -->
+    <script src="../../SiteTemplates/aadark/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+   
+    <script>
+
+
+
+    </script>
+
+    @* MQTT *@
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script>
+
+        //var BROKER_URL = "ws://test.mosquitto.org:8080";
+        //var BROKER_URL = "ws://test.mosca.io:80";
+        //var BROKER_URL = "ws://iot.eclipse.org:80";
+        var BROKER_URL = "ws://52.39.125.106:1885";
+        var TOPIC_STATE = "clealp/sie/of/state";
+        var TOPIC_INSTDATA = "clealp/sie/of/instdata";
+        var TOPIC_CONFDATA = "clealp/sie/of/confdata";
+        var TOPIC_MEASURES = "clealp/sie/of/measures";
+        var TOPIC_PUT = "clealp/sie/of/put";
+        var TOPIC = "clealp/sie/of";
+
+        var client = mqtt.connect(BROKER_URL);
+
+        client.on('connect', function () {
+            client.subscribe(TOPIC_CONFDATA);
+            client.subscribe(TOPIC_STATE);
+        })
+
+        client.on('message', function (topic, message) {
+            // message is Buffer
+            console.log(topic+"\n"+message.toString());
+
+          if (topic == TOPIC_CONFDATA) {
+                confdata = $.parseJSON(message);
+                console.log("conf data was updated");
+                setTimeout(updateconfelems, 2000);
+            }
+            else if (topic == TOPIC_STATE) {
+                state = $.parseJSON(message);
+                updateStateElems();
+            }
+            //client.end();
+        })
+    </script>
+
+    <script>
+        var state, measures, instdata, confdata;
+
+        function updateinstelems() {
+
+            var v = (instdata.VBat / 1000).toFixed(1);
+            $('#instdata-VBat').text(v);
+            $('#instdata-vbat-pb').width((v / 20) * 100 + "%");
+
+            var i = (instdata.CurrentLed / 1000).toFixed(1);
+            $('#instdata-LEDCurr').text(i);
+            $('#instdata-ledcurr-pb').width((i / 20) * 100 + "%");
+
+            var ii = (instdata.IntensityLed);
+            $('#instdata-ILED').text(ii);
+            $('#instdata-iled-pb').width(ii + "%");
+
+            var t = (instdata.TElec / 10).toFixed(1);
+            $('#instdata-Temp').text(t);
+            $('#instdata-temp-pb').width(t + "%");
+
+
+            $("#instdata_last_refresh").text(instdata.UpdateInstDate + " " + instdata.UpdateInstTime);
+        }
+
+        function updateconfelems() {
+           
+            //var v3 = (confdata.V3 / 1000).toFixed(1);
+            //$('#conf-VSB').height((v3 / 20) * 100 + "%");
+            //var v2 = (confdata.V2 / 1000).toFixed(1);
+            //$('#conf-VPPir').height((v2 / 20) * 100 + "%");
+            //var v1 = (confdata.V1 / 1000).toFixed(1);
+            //$('#conf-Von').height((v1 / 20) * 100 + "%");
+
+            ////
+            //$('#conf-ISB').height(confdata.P2 + "%");
+            //$('#conf-IPPir0').height(confdata.P1 + "%");
+            //$('#conf-IPPir1').height(confdata.PPir + "%");
+            //$('#conf-Ion').height(confdata.POn + "%");
+
+            var tt1 = (confdata.V1 / 1000).toFixed(2);
+            var tt2 = (confdata.V2 / 1000).toFixed(2);
+            var tt3 = (confdata.V3 / 1000).toFixed(2);
+
+            $("#conf_V1").val(tt1);
+            //            $("#conf_V1").attr("value", tt1);
+            $("#conf_V1").attr("min", tt2);
+
+            $("#conf_V2").val(tt2);
+            $("#conf_V2").attr("min", tt3);
+            $("#conf_V2").attr("max", tt1);
+
+            $("#conf_V3").val(tt3);
+            $("#conf_V3").attr("max", tt2);
+        }
+
+        function updateStateElelms(){
+            console.log(state);
+        }
+
+   </script>
+
+    @*--------------------------------------------------------------
+            Swipe script
+        ------------------------------------------------------------*@
+    <script>
+
+        $(document).on('swipeleft', '.ui-page', function (event) {
+            if (event.handled !== true) // This will prevent event triggering more then once
+            {
+                var nextpage = $.mobile.activePage.next('[data-role="page"]');
+                // swipe using id of next page if exists
+                if (nextpage.length > 0) {
+                    $.mobile.changePage(nextpage, { transition: "slide", reverse: false }, true, true);
+                }
+                event.handled = true;
+            }
+            return false;
+        });
+
+        $(document).on('swipeleft swiperight', '.prevent_swipe', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        });
+
+        @*http://stackoverflow.com/questions/15723362/prevent-jquery-mobile-swipe-event-over-specific-element*@
+        $(document).on('swiperight', '.ui-page', function (event) {
+            if (event.handled !== true) // This will prevent event triggering more then once
+            {
+                var prevpage = $(this).prev('[data-role="page"]');
+                if (prevpage.length > 0) {
+                    $.mobile.changePage(prevpage, { transition: "slide", reverse: true }, true, true);
+                }
+                event.handled = true;
+            }
+            return false;
+        });
+    </script>
+
+</body>
+
+</html>

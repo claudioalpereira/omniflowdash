@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -434,6 +435,7 @@
     <Content Include="SiteTemplates\aadark\ampleadmin-dark\less\icons\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <Content Include="SiteTemplates\aadark\ampleadmin-dark\less\icons\themify-icons\fonts\themify.woff" />
     <Content Include="SiteTemplates\aadark\ampleadmin-dark\less\icons\weather-icons\font\weathericons-regular-webfont.woff2" />
+    <Content Include="Views\Edit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
