@@ -570,6 +570,8 @@
             }
             else if (topic == TOPIC_CONFDATA) {
                 confdata = $.parseJSON(message);
+                localStorage.confData = message;
+
                 console.log("conf data was updated");
                 setTimeout(updateconfelems, 2000);
             }

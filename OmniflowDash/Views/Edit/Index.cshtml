@@ -153,8 +153,8 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="white-box">
-                            <h3 class="box-title">LED </h3>
-                            <h5 class="text-muted m-t-0">Based on tower sate.</h5>
+                            <h3 class="box-title">OmniLED States</h3>
+                            <h5 class="text-muted m-t-0">OmniLED state based on battery voltage.</h5>
                                 <div data-role="content" class="prevent_swipe">
 
                                     <!-- V -->
@@ -181,28 +181,45 @@
                                     <div id="range_04"></div>
                                     <div id="range_16"></div>
                                     <div id="range_18"></div>
-                                    <div id="range_22"></div*@>
-
+                                    <div id="range_22"></div>*@
                                 </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="white-box">
                             <h3 class="box-title">LED Intensity</h3>
-                            <h5 class="text-muted m-t-0">Based on tower sate.</h5>
+                            <h5 class="text-muted m-t-0">Based on OmniLED state.</h5>
+                            <div id="range_Poff"></div>
+                            <div id="range_Psby"></div>
+                            <div id="range_PPiroff"></div>
+                            <div id="range_PPiron"></div>
+                            <div id="range_Pon"></div>
 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="white-box">
-                            <h3 class="box-title">LED timing</h3>
-                            <h5 class="text-muted m-t-0">Tower state based on battery voltage.</h5>
+                            <h3 class="box-title">LED Timing on movement detection state (PPir).</h3>
+                            <h5 class="text-muted m-t-0"></h5>
+                            <div id="range_T3"></div>
+                            <div id="range_T1"></div>
+                            <div id="range_T2"></div>
 
                         </div>
                     </div>
 
                 </div>
-              
+              <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      <div class="white-box">
+                          <div class=" btn btn-default btn-block" onclick="post_new_confData()">Save</div>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      <div class="white-box">
+                          <div class=" btn btn-default btn-block" onclick="update_confData_elems(JSON.parse(localStorage.confData))">Reset</div>
+                      </div>
+                  </div>
             </div>
             <!-- /.container-fluid -->
             <footer class="footer text-center"> 2017 &copy; Siemens S.A. </footer>
@@ -260,60 +277,32 @@
     <link href="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
     <link href="~/SiteTemplates/aadark/plugins/bower_components/ion-rangeslider/css/ion.rangeSlider.skinSimple.css" rel="stylesheet" />
    
-    <script>
+        
+        <script>
+
+            var currConfData = {};
+            var newConfData = {};
+
+            //if(localStorage.confData){
+            //    console.log("11");
+            //    currConfData = JSON.parse(localStorage.confData);
+            //    console.log("111");
+            //}
 
 
+            var v1 = (currConfData.V1 || 11000 / 1000).toFixed(2);
+            var v2 = (currConfData.V2 || 11000 / 1000).toFixed(2);
+            var v3 = (currConfData.V3 || 11000 / 1000).toFixed(2);
 
-    </script>
-
-    @* MQTT *@
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <script>
-
-        //var BROKER_URL = "ws://test.mosquitto.org:8080";
-        //var BROKER_URL = "ws://test.mosca.io:80";
-        //var BROKER_URL = "ws://iot.eclipse.org:80";
-        var BROKER_URL = "ws://52.39.125.106:1885";
-        var TOPIC_STATE = "clealp/sie/of/state";
-        var TOPIC_INSTDATA = "clealp/sie/of/instdata";
-        var TOPIC_CONFDATA = "clealp/sie/of/confdata";
-        var TOPIC_MEASURES = "clealp/sie/of/measures";
-        var TOPIC_PUT = "clealp/sie/of/put";
-        var TOPIC = "clealp/sie/of";
-
-        var client = mqtt.connect(BROKER_URL);
-
-        client.on('connect', function () {
-            client.subscribe(TOPIC_CONFDATA);
-            client.subscribe(TOPIC_STATE);
-        })
-
-        client.on('message', function (topic, message) {
-            // message is Buffer
-            console.log(topic+"\n"+message.toString());
-
-          if (topic == TOPIC_CONFDATA) {
-                confdata = $.parseJSON(message);
-                console.log("conf data was updated");
-                setTimeout(updateconfelems, 2000);
-            }
-            else if (topic == TOPIC_STATE) {
-                state = $.parseJSON(message);
-                updateStateElems();
-            }
-            //client.end();
-        })
-    </script>
-
-
-    <script>
+            
         //http://ionden.com/a/plugins/ion.rangeslider/demo_advanced.html
         //http://ionden.com/a/plugins/ion.rangeSlider/en.html/
 
-        var newV1, newV2, newV3;
-
+            //
+            // OmniLED states
+            //
         $("#range_Voff").ionRangeSlider({
-            min: 11,
+            min: 9,
             max: 16.5,
             step: 0.1,
             grid: true,
@@ -323,18 +312,18 @@
             min_postfix: "+",
             force_edges: true,
             type: "double",
-            from: 10,
-            to: 12,
+            from: 9,
+            to: 9,
             from_fixed: true,
             onChange: function (data) {
                 slider_Vsby.update({from:data.to});
             },
             onFinish: function (data) {
-                newV3 = data.to;
+                newConfData.V3 = data.to;
             }
         });
         $("#range_Vsby").ionRangeSlider({
-            min: 11,
+            min: 9,
             max: 16.5,
             step: 0.1,
             grid: true,
@@ -344,20 +333,20 @@
             min_postfix: "+",
             force_edges: true,
             type: "double",
-            from: 12,
-            to: 14,
+            from: 9,
+            to: 9,
             onChange: function (data) {
-                slider_Voff.update({ to: data.from, to_max: data.to });
-                slider_Vppir.update({ from: data.to, from_min: data.from });
+                slider_Voff.update({ to: data.from/*, to_max: data.to*/ });
+                slider_Vppir.update({ from: data.to/*, from_min: data.from*/ });
 
             },
             onFinish: function (data) {
-                newV3 = data.from;
-                newV2 = data.to;
+                newConfData.V3 = data.from;
+                newConfData.V2 = data.to;
             }
         });
         $("#range_Vppir").ionRangeSlider({
-            min: 11,
+            min: 9,
             max: 16.5,
             step: 0.1,
             grid: true,
@@ -367,19 +356,19 @@
             min_postfix: "+",
             force_edges: true,
             type: "double",
-            from: 14,
-            to: 15,
+            from: 9,
+            to: 9,
             onChange: function (data) {
-                slider_Vsby.update({ to: data.from, to_max: data.to });
-                slider_Von.update({ from: data.to, from_min: data.from });
+                slider_Vsby.update({ to: data.from/*, to_max: data.to*/ });
+                slider_Von.update({ from: data.to/*, from_min: data.from*/ });
             },
             onFinish: function (data) {
-                newV2 = data.from;
-                newV1 = data.to;
+                newConfData.V2 = data.from;
+                newConfData.V1 = data.to;
             }
         });
         $("#range_Von").ionRangeSlider({
-            min: 11,
+            min: 9,
             max: 16.5,
             step: 0.1,
             grid: true,
@@ -389,14 +378,14 @@
             min_postfix: "+",
             force_edges: true,
             type: "double",
-            from: 15,
-            to: 111,
+            from: 16.5,
+            to: 16.5,
             to_fixed: true,
             onChange: function (data) {
                 slider_Vppir.update({ to: data.from });
             },
             onFinish: function (data) {
-                newV1 = data.from;
+                newConfData.V1 = data.from;
             }
         });
 
@@ -405,84 +394,161 @@
         var slider_Vsby = $("#range_Vsby").data("ionRangeSlider");
         var slider_Vppir = $("#range_Vppir").data("ionRangeSlider");
         var slider_Von = $("#range_Von").data("ionRangeSlider");
-    </script>
 
 
-    <script>
-        var state, measures, instdata, confdata;
+            //
+            // LED Timming
+            //
+        $("#range_T3").ionRangeSlider({
+            min: 10,
+            max: 2000,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "ms",
+            force_edges: true,
+            from: 10,
+            to_fixed: true,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.T1 = data.from;
+            }
+        });
+        $("#range_T1").ionRangeSlider({
+            min: 15,
+            max: 120,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "s",
+            force_edges: true,
+            from: 15,
+            to_fixed: true,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.T1 = data.from;
+            }
+        });
+        $("#range_T2").ionRangeSlider({
+            min: 5,
+            max: 60,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "s",
+            force_edges: true,
+            from: 5,
+            to_fixed: true,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.T2 = data.from;
+            }
+        });
+        var slider_T1 = $("#range_T1").data("ionRangeSlider");
+        var slider_T2 = $("#range_T2").data("ionRangeSlider");
+        var slider_T3 = $("#range_T3").data("ionRangeSlider");
 
-        function updateinstelems() {
-
-            var v = (instdata.VBat / 1000).toFixed(1);
-            $('#instdata-VBat').text(v);
-            $('#instdata-vbat-pb').width((v / 20) * 100 + "%");
-
-            var i = (instdata.CurrentLed / 1000).toFixed(1);
-            $('#instdata-LEDCurr').text(i);
-            $('#instdata-ledcurr-pb').width((i / 20) * 100 + "%");
-
-            var ii = (instdata.IntensityLed);
-            $('#instdata-ILED').text(ii);
-            $('#instdata-iled-pb').width(ii + "%");
-
-            var t = (instdata.TElec / 10).toFixed(1);
-            $('#instdata-Temp').text(t);
-            $('#instdata-temp-pb').width(t + "%");
 
 
-            $("#instdata_last_refresh").text(instdata.UpdateInstDate + " " + instdata.UpdateInstTime);
-        }
+            //
+            // LED Intensity
+            //
+        $("#range_Poff").ionRangeSlider({
+            min: 0,
+            max: 100,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "%",
+            force_edges: true,
+            from: 0,
+            from_fixed: true,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                //newConfData.T2 = data.from;
+            }
+        });
+        $("#range_Psby").ionRangeSlider({
+            min: 0,
+            max: 100,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "%",
+            force_edges: true,
+            from: 0,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.P2 = data.from;
+            }
+        });
+        $("#range_PPiroff").ionRangeSlider({
+            min: 0,
+            max: 100,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "%",
+            force_edges: true,
+            from: 0,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.P1 = data.from;
+            }
+        });
+        $("#range_PPiron").ionRangeSlider({
+            min: 0,
+            max: 100,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "%",
+            force_edges: true,
+            from: 0,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.PPir = data.from;
+            }
+        });
+        $("#range_Pon").ionRangeSlider({
+            min: 0,
+            max: 100,
+            step: 1,
+            grid: true,
+            hide_min_max: true,
+            postfix: "%",
+            force_edges: true,
+            from: 0,
+            onChange: function (data) {
+                //slider_Vppir.update({ to: data.from });
+            },
+            onFinish: function (data) {
+                newConfData.POn = data.from;
+            }
+        });
+        var slider_Psby = $("#range_Psby").data("ionRangeSlider");
+        var slider_PPiroff = $("#range_PPiroff").data("ionRangeSlider");
+        var slider_PPiron = $("#range_PPiron").data("ionRangeSlider");
+        var slider_Pon = $("#range_Pon").data("ionRangeSlider");
 
-        function updateconfelems() {
-           
-            //var v3 = (confdata.V3 / 1000).toFixed(1);
-            //$('#conf-VSB').height((v3 / 20) * 100 + "%");
-            //var v2 = (confdata.V2 / 1000).toFixed(1);
-            //$('#conf-VPPir').height((v2 / 20) * 100 + "%");
-            //var v1 = (confdata.V1 / 1000).toFixed(1);
-            //$('#conf-Von').height((v1 / 20) * 100 + "%");
-
-            ////
-            //$('#conf-ISB').height(confdata.P2 + "%");
-            //$('#conf-IPPir0').height(confdata.P1 + "%");
-            //$('#conf-IPPir1').height(confdata.PPir + "%");
-            //$('#conf-Ion').height(confdata.POn + "%");
-
-            var tt1 = (confdata.V1 / 1000).toFixed(2);
-            var tt2 = (confdata.V2 / 1000).toFixed(2);
-            var tt3 = (confdata.V3 / 1000).toFixed(2);
-
-            //<div id="range_Voff"></div>
-            //<div id="range_Vsby"></div>
-            //<div id="range_Vppir"></div>
-            //<div id="range_Von"></div>
-
-         
-
-            slider_Voff.update({ to: tt3, to_max: tt2 });
-            slider_Vsby.update({ from: tt3, to: tt2, to_max: tt1 });
-            slider_Vppir.update({ from: tt2, to: tt1, from_min: tt3 });
-            slider_Von.update({ from: tt1 });
 
 
+        </script>
 
-            $("#conf_V1").val(tt1);
-            //            $("#conf_V1").attr("value", tt1);
-            $("#conf_V1").attr("min", tt2);
-
-            $("#conf_V2").val(tt2);
-            $("#conf_V2").attr("min", tt3);
-            $("#conf_V2").attr("max", tt1);
-
-            $("#conf_V3").val(tt3);
-            $("#conf_V3").attr("max", tt2);
-        }
-
-        function updateStateElelms(){
-            console.log(state);
-        }
-
-   </script>
 
     @*--------------------------------------------------------------
             Swipe script
@@ -520,6 +586,110 @@
             return false;
         });
     </script>
+
+
+        @*---------------------------------------------------------
+             MQTT
+        ----------------------------------------------------------- *@
+        <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+        <script src="~/Content/js/myMqttClient.js"></script>
+
+        <script>
+
+        function update_confData_elems(cf) {
+            console.log(cf);
+            localStorage.confData = JSON.stringify(cf);
+
+
+            // V
+            var v1 = (cf.V1 / 1000).toFixed(2);
+            var v2 = (cf.V2 / 1000).toFixed(2);
+            var v3 = (cf.V3 / 1000).toFixed(2);
+
+            // delete args after comment to change behaviour
+            // also have to uncomment the args on the sliders creation
+            slider_Voff.update({ to: v3, to_max: v2 });
+            slider_Vsby.update({ from: v3, to: v2, to_max: v1,/**/ to_min: v3, from_max: v2 }); 
+            slider_Vppir.update({ from: v2, to: v1, from_min: v3, /**/ from_max: v1 }); 
+            slider_Von.update({ from: v1, /**/ from_min: v3 });
+
+            // T
+            slider_T1.update({ from: cf.T1 });
+            slider_T2.update({ from: cf.T2 });
+            slider_T3.update({ from: cf.T3 });
+
+            // P
+            slider_Psby.update({from: cf.P2, from_max: cf.P1});
+            slider_PPiroff.update({from: cf.P1, from_min: cf.P2, from_max: cf.PPir});
+            slider_PPiron.update({from: cf.PPir, from_min: cf.P1, from_max: cf.POn});
+            slider_Pon.update({from: cf.POn, from_min: cf.PPir});
+           
+
+
+        }
+
+        function filterNewConfData() {
+
+            if (newConfData.V1 && newConfData.V1 == currConfData.V1)
+                delete newConfData.V1;
+            if (newConfData.V2 && newConfData.V2 == currConfData.V2)
+                delete newConfData.V2;
+            if (newConfData.V3 && newConfData.V3 == currConfData.V3)
+                delete newConfData.V3;
+
+            if (newConfData.T1 && newConfData.T1 == currConfData.T1)
+                delete newConfData.T1;
+            if (newConfData.T2 && newConfData.T2 == currConfData.T2)
+                delete newConfData.T2;
+            if (newConfData.T3 && newConfData.T3 == currConfData.T3)
+                delete newConfData.T3;
+
+            if (newConfData.P1 && newConfData.P1 == currConfData.P1)
+                delete newConfData.P1;
+            if (newConfData.P2 && newConfData.P2 == currConfData.P2)
+                delete newConfData.P2;
+            if (newConfData.PPir && newConfData.PPir == currConfData.PPir)
+                delete newConfData.PPir;
+            if (newConfData.POn && newConfData.POn == currConfData.POn)
+                delete newConfData.POn;
+
+            console.log(newConfData);
+        }
+
+        function post_new_confData() {
+            
+            filterNewConfData();
+
+            if (newConfData.V1)
+                myMQTT.publish_put("{V1:" + newConfData.V1 * 1000 + "}");
+            if (newConfData.V2)
+                myMQTT.publish_put("{V2:" + newConfData.V2 * 1000 + "}");
+            if (newConfData.V3)
+                myMQTT.publish_put("{V3:" + newConfData.V3 * 1000 + "}");
+
+            if (newConfData.T1)
+                myMQTT.publish_put("{T1:" + newConfData.T1 + "}");
+            if (newConfData.T2)
+                myMQTT.publish_put("{T2:" + newConfData.T2 + "}");
+            if (newConfData.T3)
+                myMQTT.publish_put("{T3:" + newConfData.T3 + "}");
+
+            if (newConfData.P1)
+                myMQTT.publish_put("{P1:" + newConfData.P1 + "}");
+            if (newConfData.P2)
+                myMQTT.publish_put("{P3:" + newConfData.P3 + "}");
+            if (newConfData.PPir)
+                myMQTT.publish_put("{PPir:" + newConfData.PPir + "}");
+            if (newConfData.POn)
+                myMQTT.publish_put("{POn:" + newConfData.POn + "}");
+        }
+
+        $(window).ready(function () {
+            myMQTT.subscribe_confData(update_confData_elems);
+        });
+
+
+        </script>
 
 </body>
 
